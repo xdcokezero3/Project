@@ -485,6 +485,17 @@ public class Inventory extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Inventory not found");
                 }
+                
+                
+                
+            // Log the user action
+            int userId = 0; // Default value
+            String userIdStr = UserSession.getCurrentUserId();
+            if (userIdStr != null) {
+            userId = Integer.parseInt(userIdStr);
+            } // Assuming you have a method to get the current user ID
+            UserLog.logAction(userId, "EDIT_INVENTORY", "Inventory item edited: " + invname.getText());
+
 
                 // Close connection
                 Con.close();
@@ -508,53 +519,61 @@ public class Inventory extends javax.swing.JFrame {
     }//GEN-LAST:event_invsaveActionPerformed
 
     private void invsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_invsaveMouseClicked
-        if (invname.getText().isEmpty() || invquantity.getValue() == null || invdoe.getDate() == null || invtype.getText().isEmpty() || invremarks.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Missing Information");
-        } else {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
-                String username = "root";
-                String password = "root";
+    if (invname.getText().isEmpty() || invquantity.getValue() == null || invdoe.getDate() == null || invtype.getText().isEmpty() || invremarks.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Missing Information");
+    } else {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
+            String username = "root";
+            String password = "root";
 
-                Connection Con = DriverManager.getConnection(dbUrl, username, password);
+            Connection Con = DriverManager.getConnection(dbUrl, username, password);
 
-                // Retrieve the next available invid
-                Statement stmt = Con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT MAX(invid) FROM inventory");
-                int nextinvid = 1;
-                if (rs.next()) {
-                    nextinvid = rs.getInt(1) + 1;
-                }
-
-                // Prepare the SQL query for insertion
-                String query = "INSERT INTO inventory (invid, invname, invquantity, invdoe, invtype, invremarks) VALUES (?, ?, ?, ?, ?, ?)";
-                PreparedStatement add = Con.prepareStatement(query);
-                add.setInt(1, nextinvid);
-                add.setString(2, invname.getText());
-                add.setInt(3, (Integer) invquantity.getValue()); // Cast to Integer because invquantity is a JSpinner with SpinnerNumberModel
-                add.setDate(4, new java.sql.Date(invdoe.getDate().getTime())); // Corrected index to 4 for invdoe
-                add.setString(5, invtype.getText());
-                add.setString(6, invremarks.getText());
-
-                // Execute the insertion query
-                add.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Inventory added successfully");
-
-                // Close connection
-                Con.close();
-                displayInventory();
-
-                // Clear the fields after successful insertion
-                invname.setText("");
-                invquantity.setValue(0); // Assuming 0 as a default value for quantity after insertion
-                invdoe.setDate(null);
-                invtype.setText("");
-                invremarks.setText("None");
-            } catch (SQLException | ClassNotFoundException e) {
-                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            // Retrieve the next available invid
+            Statement stmt = Con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MAX(invid) FROM inventory");
+            int nextinvid = 1;
+            if (rs.next()) {
+                nextinvid = rs.getInt(1) + 1;
             }
+
+            // Prepare the SQL query for insertion
+            String query = "INSERT INTO inventory (invid, invname, invquantity, invdoe, invtype, invremarks) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement add = Con.prepareStatement(query);
+            add.setInt(1, nextinvid);
+            add.setString(2, invname.getText());
+            add.setInt(3, (Integer) invquantity.getValue()); // Cast to Integer because invquantity is a JSpinner with SpinnerNumberModel
+            add.setDate(4, new java.sql.Date(invdoe.getDate().getTime())); // Corrected index to 4 for invdoe
+            add.setString(5, invtype.getText());
+            add.setString(6, invremarks.getText());
+
+            // Execute the insertion query
+            add.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Inventory added successfully");
+
+            // Log the user action
+            int userId = 0; // Default value
+            String userIdStr = UserSession.getCurrentUserId();
+            if (userIdStr != null) {
+            userId = Integer.parseInt(userIdStr);
+            } // Assuming you have a method to get the current user ID
+            UserLog.logAction(userId, "ADD_INVENTORY", "Inventory item added: " + invname.getText());
+
+            // Close connection
+            Con.close();
+            displayInventory();
+
+            // Clear the fields after successful insertion
+            invname.setText("");
+            invquantity.setValue(0); // Assuming 0 as a default value for quantity after insertion
+            invdoe.setDate(null);
+            invtype.setText("");
+            invremarks.setText("None");
+        } catch (SQLException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
+    }
     }//GEN-LAST:event_invsaveMouseClicked
 
     private void invTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_invTableMouseClicked
@@ -728,6 +747,7 @@ if (!searchText.isEmpty()) {
         JOptionPane.showMessageDialog(this, e);
     }
 }
+
     public class InventoryReportGenerator {
 
     public static void generateInventoryReport() {

@@ -182,25 +182,46 @@ DirStateFactory.Result Rs = null;
     }//GEN-LAST:event_registerActionPerformed
 
     private void loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginMouseClicked
+ String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
 
-    String username = usernameField.getText();
-    String password = new String(passwordField.getPassword());
-
-    if (validateLogin(username, password)) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-                String username = getUsernameFromUsernameField();
-                UserSession.setCurrentUsername(username);
-                dispose();  // Close the login window
-            }
-        });
-    } else {
-        JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
-    }
-
+        int userId = getUserId(username);
+        if (validateLogin(username, password)) {
+            UserLog.logAction(userId, "LOGIN", "User logged in successfully.");
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new Dashboard().setVisible(true);
+                    UserSession.setCurrentUsername(username);
+                    dispose();  // Close the login window
+                }
+            });
+        } else {
+            UserLog.logAction(userId, "LOGIN_FAILED", "User login failed.");
+            JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
+        }
     }//GEN-LAST:event_loginMouseClicked
+public int getUserId(String username) {
+        try {
+            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
+            String dbUsername = "root";
+            String dbPassword = "root";
+            Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 
+            String sql = "SELECT usersid FROM users WHERE usersusername = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, username);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("usersid");
+            }
+
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;  // User not found
+    }
     private void registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMouseClicked
         new Register().setVisible(true);
             dispose();
