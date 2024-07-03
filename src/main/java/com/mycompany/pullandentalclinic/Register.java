@@ -119,9 +119,22 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
+        regpass.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                regpassFocusLost(evt);
+            }
+        });
         regpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 regpassActionPerformed(evt);
+            }
+        });
+        regpass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                regpassKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                regpassKeyTyped(evt);
             }
         });
 
@@ -409,6 +422,8 @@ DirStateFactory.Result Rs = null;
         JOptionPane.showMessageDialog(this, "Missing Information");
         return;
     }
+    
+    
 
     if (!regpass.getText().equals(regpass1.getText())) {
         JOptionPane.showMessageDialog(this, "Passwords do not match");
@@ -636,6 +651,27 @@ private boolean registerUser(String username, String password) {
         }
 
     }//GEN-LAST:event_regcontactFocusLost
+
+    private void regpassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_regpassKeyTyped
+
+    }//GEN-LAST:event_regpassKeyTyped
+
+    private void regpassKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_regpassKeyReleased
+
+    }//GEN-LAST:event_regpassKeyReleased
+
+    private void regpassFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_regpassFocusLost
+    String password = new String(regpass.getPassword());
+
+    // Check if the length is less than 6 characters
+    if (password.length() < 6) {
+        // Display a message to the user
+        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+
+        // Clear the password field
+        regpass.setText("");
+    }
+    }//GEN-LAST:event_regpassFocusLost
 
 
 
