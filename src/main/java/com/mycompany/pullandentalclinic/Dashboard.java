@@ -350,12 +350,8 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-
-    // Display a message when the label is clicked
-    JOptionPane.showMessageDialog(this, "Product Version: Pullan Dental Clinic Management System v.0\n" +
-"Java: 22.0.1; Java HotSpot(TM) 64-Bit Server VM 22.0.1+8-16\n" +
-"Runtime: Java(TM) SE Runtime Environment 22.0.1+8-16\n" +
-"System: Windows 11 version 10 running on amd64; UTF-8; en_PH (nb");
+        new About().setVisible(true);
+            dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
 private boolean isAdmin(String username) {
     boolean isAdmin = false;

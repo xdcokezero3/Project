@@ -52,6 +52,8 @@ public class HelpPage {
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
+        
     }
 
     private void updateText(String selectedItem) {

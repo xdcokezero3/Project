@@ -4,6 +4,8 @@
  */
 package com.mycompany.pullandentalclinic;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,6 +19,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -421,32 +425,40 @@ public class Inventory extends javax.swing.JFrame {
     }//GEN-LAST:event_invtypeActionPerformed
 
     private void invdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_invdeleteMouseClicked
+    int selectedRow = invTable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select an item to delete.");
+    } else {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
+            String username = "root";
+            String password = "root";
 
-        int selectedRow = invTable.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select an item to delete.");
-        } else {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
-                String username = "root";
-                String password = "root";
+            Connection Con = DriverManager.getConnection(dbUrl, username, password);
+            
+            // Get the value from the table and parse it to an integer
+            String invidStr = (String) invTable.getValueAt(selectedRow, 0);
+            int invid = Integer.parseInt(invidStr);
 
-                Connection Con = DriverManager.getConnection(dbUrl, username, password);
-                int invid = (int) invTable.getValueAt(selectedRow, 0);
+            String query = "UPDATE inventory SET is_deleted = 1 WHERE invid = ?";
+            PreparedStatement update = Con.prepareStatement(query);
+            update.setInt(1, invid);
 
-                String query = "DELETE FROM inventory WHERE invid = ?";
-                PreparedStatement delete = Con.prepareStatement(query);
-                delete.setInt(1, invid);
-
-                delete.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Item deleted successfully");
-                Con.close();
-                displayInventory();
-            } catch (HeadlessException | SQLException | ClassNotFoundException e) {
-                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            int rowsUpdated = update.executeUpdate();
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Item marked as deleted successfully.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: No item was marked as deleted.");
             }
+            Con.close();
+            displayInventory();
+        } catch (HeadlessException | SQLException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error: Invalid item ID format.");
         }
+    }
     }//GEN-LAST:event_invdeleteMouseClicked
 
     private void inveditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inveditMouseClicked
@@ -702,7 +714,7 @@ if (!searchText.isEmpty()) {
         new Login().setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel16MouseClicked
-    private void displayInventory() {
+private void displayInventory() {
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
@@ -710,22 +722,23 @@ if (!searchText.isEmpty()) {
         String password = "root";
 
         Connection Con = DriverManager.getConnection(dbUrl, username, password);
-        
+
         // Get the next available invid
         String query = "SELECT LPAD(CAST(IFNULL(MAX(CAST(invid AS SIGNED)), 0) + 1 AS CHAR), 3, '0') AS next_id FROM inventory";
         PreparedStatement St = Con.prepareStatement(query);
         ResultSet Rs = St.executeQuery();
-        
+
         String nextId = "";
         if (Rs.next()) {
             nextId = Rs.getString("next_id");
         }
-        
+
         // Set the next ID in the patname4 text field
         patname4.setText(nextId);
 
-        // Fetch and display the inventory data
-        query = "SELECT LPAD(CAST(invid AS CHAR), 3, '0') AS formatted_invid, invname, invquantity, invdoe, invtype, invremarks FROM inventory";
+        // Fetch and display the inventory data excluding items marked as deleted
+        query = "SELECT LPAD(CAST(invid AS CHAR), 3, '0') AS formatted_invid, invname, invquantity, invdoe, invtype, invremarks " +
+                "FROM inventory WHERE is_deleted = 0";
         St = Con.prepareStatement(query);
         Rs = St.executeQuery();
 
@@ -742,11 +755,16 @@ if (!searchText.isEmpty()) {
                 Rs.getString("invremarks")
             });
         }
+
+        // Apply the custom renderer to the invquantity column (index 2)
+        invTable.getColumnModel().getColumn(2).setCellRenderer(new QuantityCellRenderer());
+
         Con.close();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e);
     }
 }
+
 
     public class InventoryReportGenerator {
 
@@ -758,6 +776,24 @@ if (!searchText.isEmpty()) {
         // Add any parameters you need to pass to the report here
 
         JasperReportUtil.generateReport(jrxmlFilePath, outputPdfPath, parameters);
+    }
+}
+    
+    class QuantityCellRenderer extends DefaultTableCellRenderer {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        if (value instanceof Integer) {
+            int quantity = (Integer) value;
+            if (quantity >= 50) {
+                cell.setBackground(Color.GREEN);
+            } else {
+                cell.setBackground(Color.RED);
+            }
+        }
+
+        return cell;
     }
 }
     /**

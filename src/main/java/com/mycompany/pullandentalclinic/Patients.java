@@ -51,7 +51,7 @@ public class Patients extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        patdelete = new javax.swing.JButton();
         patoccupation = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         patname = new javax.swing.JTextField();
@@ -109,10 +109,10 @@ public class Patients extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Delete");
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+        patdelete.setText("Delete");
+        patdelete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton3MouseClicked(evt);
+                patdeleteMouseClicked(evt);
             }
         });
 
@@ -362,7 +362,7 @@ public class Patients extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(reportsedit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(patdelete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(reportsedit1)
                 .addGap(56, 56, 56))
@@ -436,7 +436,7 @@ public class Patients extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton3)
+                    .addComponent(patdelete)
                     .addComponent(reportsedit)
                     .addComponent(reportsedit1))
                 .addContainerGap())
@@ -580,7 +580,7 @@ public class Patients extends javax.swing.JFrame {
 Connection Con = null;
 Statement St = null;
 Result Rs = null;
-    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+    private void patdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patdeleteMouseClicked
                                    
     int selectedRow = PatTable.getSelectedRow();
     if (selectedRow == -1) {
@@ -620,7 +620,7 @@ Result Rs = null;
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
-    }//GEN-LAST:event_jButton3MouseClicked
+    }//GEN-LAST:event_patdeleteMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -1120,7 +1120,6 @@ private void clearFields() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable PatTable;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1149,6 +1148,7 @@ private void clearFields() {
     private javax.swing.JTextField patage;
     private javax.swing.JTextField patallergies;
     private javax.swing.JTextField patcontact;
+    private javax.swing.JButton patdelete;
     private com.toedter.calendar.JDateChooser patdob;
     private javax.swing.JTextField patemail;
     private javax.swing.JComboBox<String> patgender;

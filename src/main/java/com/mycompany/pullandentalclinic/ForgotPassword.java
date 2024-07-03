@@ -93,6 +93,11 @@ public class ForgotPassword extends javax.swing.JFrame {
             }
         });
 
+        fppass.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fppassFocusLost(evt);
+            }
+        });
         fppass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fppassActionPerformed(evt);
@@ -260,6 +265,19 @@ public class ForgotPassword extends javax.swing.JFrame {
         new Login().setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void fppassFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fppassFocusLost
+        String password = new String(fppass.getPassword());
+
+    // Check if the length is less than 6 characters
+    if (password.length() < 6) {
+        // Display a message to the user
+        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+
+        // Clear the password field
+        fppass.setText("");
+    }
+    }//GEN-LAST:event_fppassFocusLost
 
     /**
      * @param args the command line arguments
