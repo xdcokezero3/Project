@@ -50,7 +50,7 @@ public class Patients extends javax.swing.JFrame {
 
         jCheckBox1 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        patsave = new javax.swing.JButton();
         patdelete = new javax.swing.JButton();
         patoccupation = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -97,15 +97,15 @@ public class Patients extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setText("Save");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        patsave.setText("Save");
+        patsave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                patsaveMouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        patsave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                patsaveActionPerformed(evt);
             }
         });
 
@@ -358,7 +358,7 @@ public class Patients extends javax.swing.JFrame {
                 .addContainerGap(147, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(patsave)
                 .addGap(12, 12, 12)
                 .addComponent(reportsedit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -435,7 +435,7 @@ public class Patients extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(patsave)
                     .addComponent(patdelete)
                     .addComponent(reportsedit)
                     .addComponent(reportsedit1))
@@ -622,11 +622,11 @@ Result Rs = null;
     }
     }//GEN-LAST:event_patdeleteMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void patsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patsaveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_patsaveActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void patsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patsaveMouseClicked
                                        
                                    
         if (patname.getText().isEmpty() || patemail.getText().isEmpty() || pataddress.getText().isEmpty() || patzipcode.getText().isEmpty() || patcontact.getText().isEmpty() || patreligion.getText().isEmpty() || patdob.getDate() == null || patgender.getSelectedItem() == null || patage.getText().isEmpty() || patoccupation.getText().isEmpty() || patallergies.getText().isEmpty()){
@@ -703,7 +703,7 @@ Result Rs = null;
                 Logger.getLogger(Patients.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_patsaveMouseClicked
 
     private void patoccupationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patoccupationActionPerformed
         // TODO add your handling code here:
@@ -1027,7 +1027,7 @@ private void displayPatients() {
 
         Connection Con = DriverManager.getConnection(dbUrl, username, password);
         Statement St = Con.createStatement();
-        ResultSet Rs = St.executeQuery("SELECT LPAD(CAST(MAX(patid) + 1 AS CHAR), 3, '0') AS next_patid FROM patients");
+        ResultSet Rs = St.executeQuery("SELECT LPAD(CAST(MAX(patid) + 1 AS CHAR), 3, '0') AS next_patid FROM patients WHERE is_deleted = 0");
 
         if (Rs.next()) {
             String nextPatientID = Rs.getString("next_patid");
@@ -1035,7 +1035,7 @@ private void displayPatients() {
             patname2.setEditable(false); // Make the text box non-editable
         }
 
-        Rs = St.executeQuery("SELECT LPAD(CAST(patid AS CHAR), 3, '0') AS formatted_patid, patname, patemail, pataddress, patcityzipcode, patcontact, patreligion, patdob, patgender, patage, patoccupation, patallergies, is_deleted FROM patients");
+        Rs = St.executeQuery("SELECT LPAD(CAST(patid AS CHAR), 3, '0') AS formatted_patid, patname, patemail, pataddress, patcityzipcode, patcontact, patreligion, patdob, patgender, patage, patoccupation, patallergies, is_deleted FROM patients WHERE is_deleted = 0");
 
         DefaultTableModel model = (DefaultTableModel) PatTable.getModel();
         model.setRowCount(0);
@@ -1119,7 +1119,6 @@ private void clearFields() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable PatTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1156,6 +1155,7 @@ private void clearFields() {
     private javax.swing.JTextField patname2;
     private javax.swing.JTextField patoccupation;
     private javax.swing.JTextField patreligion;
+    private javax.swing.JButton patsave;
     private javax.swing.JTextField patzipcode;
     private javax.swing.JButton reportsedit;
     private javax.swing.JButton reportsedit1;
