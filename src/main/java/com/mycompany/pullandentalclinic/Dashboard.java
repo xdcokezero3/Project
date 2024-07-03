@@ -297,8 +297,8 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        new Appointments().setVisible(true);
-        dispose();
+        new HelpPage().setVisible(true);
+            dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
@@ -345,8 +345,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_AdminMouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        JOptionPane.showMessageDialog(this, "Do you have Questions??\n" +
-"Message us at pullandentalclinic2001@gmail.com\n");
+        new HelpPage().setVisible(true);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

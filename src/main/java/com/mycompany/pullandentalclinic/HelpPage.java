@@ -1,19 +1,18 @@
 package com.mycompany.pullandentalclinic;
 
-/**
- *
- * @author Rebecca
- */
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.JPanel;
 
 public class HelpPage {
 
@@ -47,13 +46,26 @@ public class HelpPage {
 
         scrollPane = new JScrollPane(textArea);
 
+        // Create a panel for the button
+        JPanel buttonPanel = new JPanel();
+        JButton returnButton = new JButton("Return to Dashboard");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Dashboard().setVisible(true);
+                frame.dispose();
+                // Assuming you have a method to show the dashboard
+                // Dashboard.showDashboard();
+            }
+        });
+        buttonPanel.add(returnButton);
+
         frame.add(menuScrollPane, BorderLayout.WEST);
         frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        
-        
     }
 
     private void updateText(String selectedItem) {
@@ -82,7 +94,11 @@ public class HelpPage {
     }
 
     public static void main(String[] args) {
-        new HelpPage();
+        SwingUtilities.invokeLater(HelpPage::new);
+    }
+
+    void setVisible(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
 
