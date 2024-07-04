@@ -2,14 +2,16 @@ package com.mycompany.pullandentalclinic;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class DatabaseBackupAndRecovery {
-    private static final String BACKUP_DIR = "C:\\Users\\Rebecca\\Desktop\\Backup\\";
+    private static final String BACKUP_DIR = "C:\\Users\\Rebecca\\Documents\\NetBeansProjects\\PullanDentalClinic\\";
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
     private static final String DB_USERNAME = "root";
@@ -80,13 +82,24 @@ public class DatabaseBackupAndRecovery {
             Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             con.close();
 
-            // Get the latest backup file (assuming the latest backup file is the one with the latest date)
+            // List files in backup directory
             File backupDir = new File(BACKUP_DIR);
-            File[] backupFiles = backupDir.listFiles((dir, name) -> name.matches("backupdatabase_\\d{8}\\.sql"));
+            File[] backupFiles = backupDir.listFiles((dir, name) -> name.matches("backup_database_\\d{8}\\.sql"));
+            
+            // Log the files found
+            System.out.println("Files found in backup directory:");
+            if (backupFiles != null) {
+                Arrays.stream(backupFiles).forEach(file -> System.out.println(file.getName()));
+            } else {
+                System.out.println("No files found.");
+            }
+
             if (backupFiles == null || backupFiles.length == 0) {
                 System.out.println("No backup files found.");
                 return;
             }
+
+            // Get the latest backup file
             File latestBackupFile = backupFiles[backupFiles.length - 1];
             for (File file : backupFiles) {
                 if (file.lastModified() > latestBackupFile.lastModified()) {
