@@ -1,0 +1,69 @@
+import org.smslib.IInboundMessageNotification;
+import org.smslib.IOutboundMessageNotification;
+import org.smslib.Library;
+import org.smslib.Message;
+import org.smslib.Service;
+import org.smslib.modem.SerialModemGateway;
+import org.smslib.helper.CommPortIdentifier;
+import org.smslib.modem.SerialModemGateway;
+
+public class SMSSenderReceiver {
+
+    public void sendSMS(String recipient, String messageText) {
+        try {
+            SerialModemGateway gateway = new SerialModemGateway("modem.com3", "COM3", 9600, "Huawei", "E173");
+            gateway.setInbound(true);
+            gateway.setOutbound(true);
+            gateway.setSimPin("0000");
+
+            Service.getInstance().addGateway(gateway);
+            Service.getInstance().startService();
+
+            Message message = new Message();
+            message.setRecipient(recipient);
+            message.setText(messageText);
+            Service.getInstance().sendMessage(message);
+
+            System.out.println("Message sent to: " + recipient);
+
+            Service.getInstance().stopService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void receiveSMS() {
+        try {
+            SerialModemGateway gateway = new SerialModemGateway("modem.com3", "COM3", 9600, "Huawei", "E173");
+            gateway.setInbound(true);
+            gateway.setOutbound(true);
+            gateway.setSimPin("0000");
+
+            Service.getInstance().addGateway(gateway);
+            Service.getInstance().startService();
+
+            Service.getInstance().setInboundMessageNotification(new IInboundMessageNotification() {
+                @Override
+                public void process(String gatewayId, Message.MessageTypes msgType, Message msg) {
+                    if (msgType == Message.MessageTypes.INBOUND) {
+                        System.out.println("Received message from: " + msg.getOriginator());
+                        System.out.println("Message content: " + msg.getText());
+                    }
+                }
+            });
+
+            // Keep the service running to receive messages
+            Thread.sleep(60000);
+
+            Service.getInstance().stopService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        SMSSenderReceiver sms = new SMSSenderReceiver();
+        sms.sendSMS("+1234567890", "Hello, this is a test message.");
+        sms.receiveSMS();
+    }
+}
