@@ -1034,7 +1034,7 @@ public class PatientReportGenerator {
     }
 }
     
-private void displayPatients() {
+public void displayPatients() {
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
