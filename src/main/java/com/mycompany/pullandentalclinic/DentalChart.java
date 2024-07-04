@@ -91,6 +91,7 @@ public class DentalChart extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         dctable = new javax.swing.JTable();
         dcedit = new javax.swing.JButton();
+        dcdelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -315,6 +316,13 @@ public class DentalChart extends javax.swing.JFrame {
             }
         });
 
+        dcdelete.setText("Delete");
+        dcdelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dcdeleteMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -334,7 +342,9 @@ public class DentalChart extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(dcsave)
                         .addGap(18, 18, 18)
-                        .addComponent(dcedit))
+                        .addComponent(dcedit)
+                        .addGap(18, 18, 18)
+                        .addComponent(dcdelete))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -542,7 +552,8 @@ public class DentalChart extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dcsave)
-                    .addComponent(dcedit))
+                    .addComponent(dcedit)
+                    .addComponent(dcdelete))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -551,7 +562,7 @@ public class DentalChart extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        new Dashboard().setVisible(true);
+        new Patients().setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel5MouseClicked
 
@@ -582,8 +593,8 @@ public class DentalChart extends javax.swing.JFrame {
     private void dcsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dcsaveMouseClicked
                                     
     // Check if any required fields are empty
-    if (dcpatname.getText().isEmpty() || dcdoctor.getText().isEmpty() || dcpcontact.getText().isEmpty() || 
-        dcdentist.getText().isEmpty() || dcdcontact.getText().isEmpty() || dcvisit.getText().isEmpty() 
+    if (dcpatname.getText().isEmpty()  
+         
         ) {
         JOptionPane.showMessageDialog(this, "Missing Information");
         return;
@@ -836,11 +847,49 @@ public class DentalChart extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dceditActionPerformed
 
+    private void dcdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dcdeleteMouseClicked
+    int selectedRow = dctable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a dental chart entry to delete.");
+    } else {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
+            String username = "root";
+            String password = "root";
+
+            Connection Con = DriverManager.getConnection(dbUrl, username, password);
+
+            // Get the dental chart ID from the selected row
+            String dentalChartIdString = (String) dctable.getValueAt(selectedRow, 0);
+            int dcID;
+            try {
+                dcID = Integer.parseInt(dentalChartIdString);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error: The selected dental chart ID is not a valid integer.");
+                return;
+            }
+
+            String query = "UPDATE dentalchart SET is_deleted = 1 WHERE dcID = ?";
+            PreparedStatement update = Con.prepareStatement(query);
+            update.setInt(1, dcID);
+
+            int rowsUpdated = update.executeUpdate();
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Dental chart entry marked as deleted successfully.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: No dental chart entry was marked as deleted.");
+            }
+            Con.close();
+            displayDentalCharts();
+        } catch (HeadlessException | SQLException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+    }//GEN-LAST:event_dcdeleteMouseClicked
+
     
     private void displayDentalCharts() {
-    DefaultTableModel model = (DefaultTableModel) dctable.getModel();
-    model.setRowCount(0);  // Clear existing rows
-
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
@@ -848,20 +897,29 @@ public class DentalChart extends javax.swing.JFrame {
         String password = "root";
 
         Connection Con = DriverManager.getConnection(dbUrl, username, password);
-        Statement St = Con.createStatement();
-        ResultSet rs = St.executeQuery("SELECT dcID, dcpatname FROM dentalchart");
 
+        String query = "SELECT dcID, dcpatname FROM dentalchart WHERE is_deleted = 0";
+        PreparedStatement pst = Con.prepareStatement(query);
+        
+        ResultSet rs = pst.executeQuery();
+
+        // Clear the table
+        DefaultTableModel model = (DefaultTableModel) dctable.getModel();
+        model.setRowCount(0);
+
+        // Populate the table with data
         while (rs.next()) {
-            int dcID = rs.getInt("dcID");
-            String dcIDFormatted = String.format("%03d", dcID);  // Format dcID with leading zeros
-            String dcpatname = rs.getString("dcpatname");
-            model.addRow(new Object[]{dcIDFormatted, dcpatname});
+            int id = rs.getInt("dcID");
+            String patientName = rs.getString("dcpatname");
+            model.addRow(new Object[]{String.format("%03d", id), patientName});
         }
+        
         Con.close();
     } catch (ClassNotFoundException | SQLException e) {
         JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
 }
+
 
 
     
@@ -930,6 +988,7 @@ public class DentalChart extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dcdcontact;
+    private javax.swing.JButton dcdelete;
     private javax.swing.JTextField dcdentist;
     private javax.swing.JTextField dcdoctor;
     private javax.swing.JButton dcedit;

@@ -82,6 +82,7 @@ public class Patients extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         patname2 = new javax.swing.JTextField();
         reportsedit1 = new javax.swing.JButton();
+        patdelete1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -299,6 +300,13 @@ public class Patients extends javax.swing.JFrame {
             }
         });
 
+        patdelete1.setText("Dental Charts");
+        patdelete1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patdelete1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -338,11 +346,11 @@ public class Patients extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(patname2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(45, 45, 45)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel7)
-                            .addComponent(patdob, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(patdob, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                             .addComponent(jLabel17)
-                            .addComponent(patgender, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(patgender, 0, 138, Short.MAX_VALUE)
                             .addComponent(jLabel3)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
@@ -363,7 +371,9 @@ public class Patients extends javax.swing.JFrame {
                 .addComponent(reportsedit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(patdelete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(98, 98, 98)
+                .addComponent(patdelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
                 .addComponent(reportsedit1)
                 .addGap(56, 56, 56))
         );
@@ -429,7 +439,7 @@ public class Patients extends javax.swing.JFrame {
                                 .addComponent(jLabel18)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(patallergies, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(19, 19, 19)
+                .addGap(20, 20, 20)
                 .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -438,7 +448,8 @@ public class Patients extends javax.swing.JFrame {
                     .addComponent(patsave)
                     .addComponent(patdelete)
                     .addComponent(reportsedit)
-                    .addComponent(reportsedit1))
+                    .addComponent(reportsedit1)
+                    .addComponent(patdelete1))
                 .addContainerGap())
         );
 
@@ -1005,6 +1016,11 @@ Result Rs = null;
         dispose();
     }//GEN-LAST:event_jLabel20MouseClicked
 
+    private void patdelete1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patdelete1MouseClicked
+        new DentalChart().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_patdelete1MouseClicked
+
 public class PatientReportGenerator {
 
     public static void generatePatientReport() {
@@ -1148,6 +1164,7 @@ private void clearFields() {
     private javax.swing.JTextField patallergies;
     private javax.swing.JTextField patcontact;
     private javax.swing.JButton patdelete;
+    private javax.swing.JButton patdelete1;
     private com.toedter.calendar.JDateChooser patdob;
     private javax.swing.JTextField patemail;
     private javax.swing.JComboBox<String> patgender;

@@ -389,7 +389,8 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_AdminMouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        new HelpPage().setVisible(true);
+        new Help().setVisible(true);
+            dispose();
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

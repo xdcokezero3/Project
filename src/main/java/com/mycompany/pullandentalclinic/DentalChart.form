@@ -42,6 +42,8 @@
                       <Component id="dcsave" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="dcedit" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="dcdelete" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
@@ -315,6 +317,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="dcsave" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="dcedit" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="dcdelete" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
@@ -664,6 +667,14 @@
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="dceditMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dceditActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="dcdelete">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Delete"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="dcdeleteMouseClicked"/>
       </Events>
     </Component>
   </SubComponents>

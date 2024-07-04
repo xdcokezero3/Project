@@ -105,11 +105,11 @@
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="patdob" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
+                              <Component id="patdob" alignment="0" pref="138" max="32767" attributes="0"/>
                               <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="patgender" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
+                              <Component id="patgender" alignment="0" pref="138" max="32767" attributes="0"/>
                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -136,7 +136,9 @@
                   <Component id="reportsedit" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="patdelete" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                  <Component id="patdelete1" min="-2" pref="138" max="-2" attributes="0"/>
+                  <EmptySpace pref="200" max="32767" attributes="0"/>
                   <Component id="reportsedit1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
               </Group>
@@ -223,7 +225,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="searchField" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="240" max="-2" attributes="0"/>
@@ -233,6 +235,7 @@
                       <Component id="patdelete" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="reportsedit" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="reportsedit1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="patdelete1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -542,6 +545,14 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="reportsedit1MouseClicked"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="patdelete1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Dental Charts"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="patdelete1MouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
