@@ -17,6 +17,7 @@ import java.sql.SQLException;
 public class UserSession {
     private static String currentUsername;
     private static String currentUserId;
+    private static int failedAttempts = 0;
 
     public static void setCurrentUsername(String username) {
         currentUsername = username;
@@ -28,6 +29,14 @@ public class UserSession {
     
     public static String getCurrentUserId() {
         return currentUserId;
+    }
+    
+        public static int getFailedAttempts() {
+        return failedAttempts;
+    }
+
+    public static void setFailedAttempts(int attempts) {
+        failedAttempts = attempts;
     }
     
 }

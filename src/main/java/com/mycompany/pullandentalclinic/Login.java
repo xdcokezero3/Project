@@ -180,25 +180,32 @@ DirStateFactory.Result Rs = null;
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_registerActionPerformed
-
+private static int failedAttempts = 0;
     private void loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginMouseClicked
- String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
+    String username = usernameField.getText();
+    String password = new String(passwordField.getPassword());
 
-        int userId = getUserId(username);
-        if (validateLogin(username, password)) {
-            UserLog.logAction(userId, "LOGIN", "User logged in successfully.");
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new Dashboard().setVisible(true);
-                    UserSession.setCurrentUsername(username);
-                    dispose();  // Close the login window
-                }
-            });
+    int userId = getUserId(username);
+    if (validateLogin(username, password)) {
+        UserLog.logAction(userId, "LOGIN", "User logged in successfully.");
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Dashboard().setVisible(true);
+                UserSession.setCurrentUsername(username);
+                dispose();  // Close the login window
+            }
+        });
+    } else {
+        failedAttempts++;
+        UserLog.logAction(userId, "LOGIN_FAILED", "User login failed.");
+        if (failedAttempts >= 3) {
+            JOptionPane.showMessageDialog(this, "Too many failed attempts. Redirecting to Forgot Password.");
+            new ForgotPassword().setVisible(true);
+            dispose();
         } else {
-            UserLog.logAction(userId, "LOGIN_FAILED", "User login failed.");
             JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
         }
+    }
     }//GEN-LAST:event_loginMouseClicked
 public int getUserId(String username) {
         try {
@@ -264,6 +271,7 @@ private boolean validateLogin(String user, String pass) {
 private String getUsernameFromUsernameField() {
     return usernameField.getText();
 }
+
 
 
     /**

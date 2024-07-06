@@ -1033,7 +1033,7 @@ public class PatientReportGenerator {
         JasperReportUtil.generateReport(jrxmlFilePath, outputPdfPath, parameters);
     }
 }
-    
+
 public void displayPatients() {
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -1078,6 +1078,7 @@ public void displayPatients() {
         JOptionPane.showMessageDialog(this, e);
     }
 }
+
 
 
 private void clearFields() {

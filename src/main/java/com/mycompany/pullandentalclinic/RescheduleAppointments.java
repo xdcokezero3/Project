@@ -38,12 +38,12 @@ import javax.swing.text.PlainDocument;
  *
  * @author Rebecca
  */
-public class Appointments extends javax.swing.JFrame {
+public class RescheduleAppointments extends javax.swing.JFrame {
 
     /**
      * Creates new form Appointments
      */
-    public Appointments() {
+    public RescheduleAppointments() {
         initComponents();
         GetPatients();
         displayAppointment();
@@ -69,15 +69,17 @@ public class Appointments extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         apppatient = new javax.swing.JComboBox<>();
-        appsave = new javax.swing.JButton();
         appedit = new javax.swing.JButton();
-        appdelete = new javax.swing.JButton();
-        appointmentreport = new javax.swing.JButton();
         patname2 = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
         apptime = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        appdate1 = new com.toedter.calendar.JDateChooser();
+        jLabel9 = new javax.swing.JLabel();
+        apptime1 = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -94,7 +96,7 @@ public class Appointments extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 102, 255));
-        jLabel2.setText("Appointments");
+        jLabel2.setText("Reschedule");
 
         jLabel7.setText("Date");
 
@@ -134,36 +136,10 @@ public class Appointments extends javax.swing.JFrame {
 
         jLabel14.setText("Patient");
 
-        appsave.setText("Save");
-        appsave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                appsaveMouseClicked(evt);
-            }
-        });
-        appsave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                appsaveActionPerformed(evt);
-            }
-        });
-
         appedit.setText("Edit");
         appedit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 appeditMouseClicked(evt);
-            }
-        });
-
-        appdelete.setText("Delete");
-        appdelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                appdeleteMouseClicked(evt);
-            }
-        });
-
-        appointmentreport.setText("Generate Report");
-        appointmentreport.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                appointmentreportMouseClicked(evt);
             }
         });
 
@@ -189,7 +165,26 @@ public class Appointments extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Reschedule ");
+        appdate1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                appdate1MouseClicked(evt);
+            }
+        });
+
+        jLabel9.setText("New Date");
+
+        apptime1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                apptime1KeyTyped(evt);
+            }
+        });
+
+        jLabel18.setText("Time");
+
+        jTextField1.setText("jTextField1");
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
+        jLabel19.setText("Reason for reschedule");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -199,48 +194,47 @@ public class Appointments extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(appsave)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(appedit)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(appdelete)
-                                        .addGap(273, 273, 273)
-                                        .addComponent(appointmentreport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel17)
+                                            .addComponent(patname2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel14)
+                                            .addComponent(apppatient, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel19))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(appdate, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel9))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel13)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel17)
-                                                    .addComponent(patname2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(apptime, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel14)
-                                                    .addComponent(apppatient, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel7)
-                                                    .addComponent(appdate, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel13)
-                                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(apptime, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(jButton1))))
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(54, Short.MAX_VALUE))
+                                                .addComponent(appedit))))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7)
+                                            .addComponent(appdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel18)
+                                            .addComponent(apptime1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +246,7 @@ public class Appointments extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(appdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(appdate1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
@@ -262,22 +256,33 @@ public class Appointments extends javax.swing.JFrame {
                             .addComponent(apppatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(patname2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(apptime1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(apptime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
-                .addGap(17, 17, 17)
+                            .addComponent(appedit)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel19))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(appdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(14, 14, 14)
                 .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(appsave)
-                    .addComponent(appedit)
-                    .addComponent(appdelete)
-                    .addComponent(appointmentreport))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 255));
@@ -434,76 +439,6 @@ private void GetPatients() {
 
 
     
-    private void appsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appsaveActionPerformed
-
-    }//GEN-LAST:event_appsaveActionPerformed
-
-    private void appsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appsaveMouseClicked
-    Date selectedDate = appdate.getDate();
-    if (selectedDate == null) {
-        JOptionPane.showMessageDialog(this, "Please select a date.");
-        return;
-    }
-    if (!isValidDate(selectedDate)) {
-        JOptionPane.showMessageDialog(this, "Selected date is in the past. Please select a valid date.");
-        return;
-    }
-
-    if (apppatient.getSelectedItem() == null || appdate.getDate() == null || apptime.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Missing Information");
-    } else {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
-            String username = "root";
-            String password = "root";
-
-            Connection Con = DriverManager.getConnection(dbUrl, username, password);
-            Statement stmt = Con.createStatement();
-
-            // Check for double booking
-            String checkQuery = "SELECT COUNT(*) FROM appointment WHERE appdate = ? AND apptime = ?";
-            PreparedStatement checkStmt = Con.prepareStatement(checkQuery);
-            checkStmt.setDate(1, new java.sql.Date(appdate.getDate().getTime()));
-            checkStmt.setString(2, apptime.getText());
-            ResultSet checkRs = checkStmt.executeQuery();
-            if (checkRs.next() && checkRs.getInt(1) > 0) {
-                JOptionPane.showMessageDialog(this, "This date and time slot is already booked. Please select a different time.");
-                Con.close();
-                return;
-            }
-
-            // Get the highest appid from the database and increment it
-            ResultSet rs = stmt.executeQuery("SELECT MAX(appid) FROM appointment");
-            int nextappId = 1;
-            if (rs.next()) {
-                nextappId = rs.getInt(1) + 1;
-            }
-
-            String query = "INSERT INTO appointment (appid, apppatient, appdate, apptime) VALUES (?, ?, ?, ?)";
-            PreparedStatement add = Con.prepareStatement(query);
-            add.setInt(1, nextappId);
-            add.setString(2, apppatient.getSelectedItem().toString());
-            add.setDate(3, new java.sql.Date(appdate.getDate().getTime()));
-            add.setString(4, apptime.getText());
-
-            add.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Appointment added successfully");
-            Con.close();
-            displayAppointment();
-
-            // Clear the fields after successful insertion
-            appdate.setDate(null);
-            apppatient.setSelectedIndex(0);
-            apptime.setText("");
-        } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Staff.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    }//GEN-LAST:event_appsaveMouseClicked
-
     private void appTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appTableMouseClicked
         int selectedRow = appTable.getSelectedRow();
         if (selectedRow != -1) { // Ensure a row is selected
@@ -515,47 +450,17 @@ private void GetPatients() {
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 java.util.Date date = dateFormat.parse(model.getValueAt(selectedRow, 2).toString());
-                appdate.setDate(date);
+                appdate1.setDate(date);
             } catch (Exception e) {
                 e.printStackTrace();
             
             
             }
 
-            apptime.setText(model.getValueAt(selectedRow, 3).toString());
+            apptime1.setText(model.getValueAt(selectedRow, 3).toString());
     }
             
     }//GEN-LAST:event_appTableMouseClicked
-
-    private void appdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appdeleteMouseClicked
-                                     
-                                     
-        int selectedRow = appTable.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select an appointment to delete.");
-    } else {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
-            String username = "root";
-            String password = "root";
-
-            Connection Con = DriverManager.getConnection(dbUrl, username, password);
-            int appid = (int) appTable.getValueAt(selectedRow, 0);
-
-            String query = "DELETE FROM appointment WHERE appid = ?";
-            PreparedStatement delete = Con.prepareStatement(query);
-            delete.setInt(1, appid);
-
-            delete.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Appointment deleted successfully");
-            Con.close();
-            displayAppointment();
-        } catch (HeadlessException | SQLException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        }
-    }
-    }//GEN-LAST:event_appdeleteMouseClicked
 
     private void appeditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appeditMouseClicked
                                     
@@ -658,7 +563,7 @@ if (!searchText.isEmpty()) {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        new Appointments().setVisible(true);
+        new RescheduleAppointments().setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel4MouseClicked
 
@@ -695,10 +600,6 @@ if (!searchText.isEmpty()) {
     
     }//GEN-LAST:event_appdateMouseClicked
 
-    private void appointmentreportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentreportMouseClicked
-    AppointmentsReportGenerator.generateAppointmentReport();
-    }//GEN-LAST:event_appointmentreportMouseClicked
-
     private void apptimeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apptimeKeyTyped
     JTextField textField = (JTextField) evt.getSource();
     char keyChar = evt.getKeyChar();
@@ -719,6 +620,14 @@ if (!searchText.isEmpty()) {
         evt.consume(); // Ignore the input if it doesn't match the partial pattern
     }
     }//GEN-LAST:event_apptimeKeyTyped
+
+    private void appdate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appdate1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_appdate1MouseClicked
+
+    private void apptime1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apptime1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_apptime1KeyTyped
 
     
     
@@ -803,21 +712,22 @@ if (!searchText.isEmpty()) {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Appointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RescheduleAppointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Appointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RescheduleAppointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Appointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RescheduleAppointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Appointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RescheduleAppointments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
-                new Appointments().setVisible(true);
+                new RescheduleAppointments().setVisible(true);
             }
         });
     }
@@ -826,28 +736,30 @@ if (!searchText.isEmpty()) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable appTable;
     private com.toedter.calendar.JDateChooser appdate;
-    private javax.swing.JButton appdelete;
+    private com.toedter.calendar.JDateChooser appdate1;
     private javax.swing.JButton appedit;
-    private javax.swing.JButton appointmentreport;
     private javax.swing.JComboBox<String> apppatient;
-    private javax.swing.JButton appsave;
     private javax.swing.JTextField apptime;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField apptime1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField patname2;
     private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
