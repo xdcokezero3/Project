@@ -238,36 +238,36 @@ public int getUserId(String username) {
         new ForgotPassword().setVisible(true);
             dispose();
     }//GEN-LAST:event_jLabel4MouseClicked
-private boolean validateLogin(String user, String pass) {
+public boolean validateLogin(String username, String password) {
+    boolean isValid = false;
     try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
+        String dbUsername = "root";
+        String dbPassword = "root";
+        Connection Con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+        
+        String query = "SELECT userspassword FROM users WHERE usersusername = ?";
+        PreparedStatement ps = Con.prepareStatement(query);
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
 
-            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
-            String username = "root";
-            String password = "root";
+        if (rs.next()) {
+            String encryptedPassword = rs.getString("userspassword");
+            String decryptedPassword = AESCrypt.decrypt(encryptedPassword);
 
-            Connection Con = DriverManager.getConnection(dbUrl, username, password);
-
-        // Prepare the SQL statement to check the login credentials
-        String sql = "SELECT * FROM users WHERE usersusername = ? AND userspassword = ?";
-        PreparedStatement stmt = Con.prepareStatement(sql);
-        stmt.setString(1, user);
-        stmt.setString(2, pass);
-
-        // Execute the SQL statement and get the result
-        ResultSet rs = stmt.executeQuery();
-
-        // Check if the login credentials are valid
-        boolean isValid = rs.next();
-
-        // Close the database connection
+            if (password.equals(decryptedPassword)) {
+                isValid = true;
+            }
+        }
         Con.close();
-
-        return isValid;
-    } catch (SQLException e) {
+    } catch (Exception e) {
         e.printStackTrace();
-        return false;
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
     }
+    return isValid;
 }
+
 private String getUsernameFromUsernameField() {
     return usernameField.getText();
 }

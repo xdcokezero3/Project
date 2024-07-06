@@ -418,79 +418,82 @@ Connection Con = null;
 Statement St = null;
 DirStateFactory.Result Rs = null;
     private void createaccMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createaccMouseClicked
-    if (regname.getText().isEmpty() || regemail.getText().isEmpty() || reguser.getText().isEmpty() || regpass.getText().isEmpty() || regpass1.getText().isEmpty() || reghaddress.getText().isEmpty() || regcityzipcode.getText().isEmpty() || regcontact.getText().isEmpty() || regreligion.getText().isEmpty() || regdob.getDate() == null || reggender.getSelectedItem() == null || regage.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Missing Information");
-        return;
-    }
-    
-    
-
-    if (!regpass.getText().equals(regpass1.getText())) {
-        JOptionPane.showMessageDialog(this, "Passwords do not match");
-        return;
-    }
-
-    try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
-        String username = "root";
-        String password = "root";
-
-        Connection Con = DriverManager.getConnection(dbUrl, username, password);
-        Statement St = Con.createStatement();
-
-        // Get the highest usersid from the database and increment it
-        ResultSet rs = St.executeQuery("SELECT MAX(usersid) FROM users");
-        int nextusersId = 1;
-        if (rs.next()) {
-            nextusersId = rs.getInt(1) + 1;
+        if (regname.getText().isEmpty() || regemail.getText().isEmpty() || reguser.getText().isEmpty() || regpass.getText().isEmpty() || regpass1.getText().isEmpty() || reghaddress.getText().isEmpty() || regcityzipcode.getText().isEmpty() || regcontact.getText().isEmpty() || regreligion.getText().isEmpty() || regdob.getDate() == null || reggender.getSelectedItem() == null || regage.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Missing Information");
+            return;
         }
 
-        String query = "INSERT INTO users (usersid, usersrealname, usersemail, usersusername, userspassword, usershomeaddress, userscityzipcode, userscontact, usersreligion, usersdob, usersgender, usersage, usersoccupation, usersaccess) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement add = Con.prepareStatement(query);
-        add.setInt(1, nextusersId);
-        add.setString(2, regname.getText());
-        add.setString(3, regemail.getText());
-        add.setString(4, reguser.getText());
-        add.setString(5, regpass.getText());
-        add.setString(6, reghaddress.getText());
-        add.setString(7, regcityzipcode.getText());
-        add.setString(8, regcontact.getText());
-        add.setString(9, regreligion.getText());
-        add.setDate(10, new java.sql.Date(regdob.getDate().getTime()));
-        add.setString(11, reggender.getSelectedItem().toString());
-        add.setString(12, regage.getText());
-        add.setString(13, regoccupation.getText());
-        add.setString(14, regaccess.getSelectedItem().toString());
+        if (!regpass.getText().equals(regpass1.getText())) {
+            JOptionPane.showMessageDialog(this, "Passwords do not match");
+            return;
+        }
 
-        add.executeUpdate();
-        JOptionPane.showMessageDialog(this, "User added successfully");
-        Con.close();
+        try {
+            // Encrypt the password
+            String encryptedPassword = AESCrypt.encrypt(regpass.getText());
 
-        new Login().setVisible(true);
-        dispose();
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
+            String username = "root";
+            String password = "root";
 
-        // Clear the fields after successful insertion
-        regname.setText("");
-        regemail.setText("");
-        reguser.setText("");
-        regpass.setText("");
-        regpass1.setText("");
-        reghaddress.setText("");
-        regcityzipcode.setText("");
-        regcontact.setText("");
-        regreligion.setText("");
-        regdob.setDate(null);
-        reggender.setSelectedIndex(0);
-        regage.setText("");
-        regoccupation.setText("");
-        regaccess.setSelectedIndex(0);
-        
-    } catch (HeadlessException | SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(Patients.class.getName()).log(Level.SEVERE, null, ex);
-    }
+            Connection Con = DriverManager.getConnection(dbUrl, username, password);
+            Statement St = Con.createStatement();
+
+            // Get the highest usersid from the database and increment it
+            ResultSet rs = St.executeQuery("SELECT MAX(usersid) FROM users");
+            int nextusersId = 1;
+            if (rs.next()) {
+                nextusersId = rs.getInt(1) + 1;
+            }
+
+            String query = "INSERT INTO users (usersid, usersrealname, usersemail, usersusername, userspassword, usershomeaddress, userscityzipcode, userscontact, usersreligion, usersdob, usersgender, usersage, usersoccupation, usersaccess) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement add = Con.prepareStatement(query);
+            add.setInt(1, nextusersId);
+            add.setString(2, regname.getText());
+            add.setString(3, regemail.getText());
+            add.setString(4, reguser.getText());
+            add.setString(5, encryptedPassword); // Store the encrypted password
+            add.setString(6, reghaddress.getText());
+            add.setString(7, regcityzipcode.getText());
+            add.setString(8, regcontact.getText());
+            add.setString(9, regreligion.getText());
+            add.setDate(10, new java.sql.Date(regdob.getDate().getTime()));
+            add.setString(11, reggender.getSelectedItem().toString());
+            add.setString(12, regage.getText());
+            add.setString(13, regoccupation.getText());
+            add.setString(14, regaccess.getSelectedItem().toString());
+
+            add.executeUpdate();
+            JOptionPane.showMessageDialog(this, "User added successfully");
+            Con.close();
+
+            new Login().setVisible(true);
+            dispose();
+
+            // Clear the fields after successful insertion
+            regname.setText("");
+            regemail.setText("");
+            reguser.setText("");
+            regpass.setText("");
+            regpass1.setText("");
+            reghaddress.setText("");
+            regcityzipcode.setText("");
+            regcontact.setText("");
+            regreligion.setText("");
+            regdob.setDate(null);
+            reggender.setSelectedIndex(0);
+            regage.setText("");
+            regoccupation.setText("");
+            regaccess.setSelectedIndex(0);
+
+        } catch (HeadlessException | SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Patients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Encryption Error: " + ex.getMessage());
+        }
     }//GEN-LAST:event_createaccMouseClicked
 private boolean registerUser(String username, String password) {
     Connection con = null;

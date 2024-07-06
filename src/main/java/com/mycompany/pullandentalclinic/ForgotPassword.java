@@ -37,7 +37,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         fpemail = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        changepassword = new javax.swing.JButton();
         fpcontact = new javax.swing.JTextField();
         fppass = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
@@ -65,15 +65,15 @@ public class ForgotPassword extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
         jLabel3.setText("Contact #");
 
-        jButton1.setText("Change Password");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        changepassword.setText("Change Password");
+        changepassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                changepasswordMouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        changepassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                changepasswordActionPerformed(evt);
             }
         });
 
@@ -140,7 +140,7 @@ public class ForgotPassword extends javax.swing.JFrame {
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(changepassword, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(fppass, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel5))
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -164,7 +164,7 @@ public class ForgotPassword extends javax.swing.JFrame {
                     .addComponent(fppass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addComponent(changepassword)
                 .addGap(65, 65, 65))
         );
 
@@ -172,12 +172,11 @@ public class ForgotPassword extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void changepasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changepasswordActionPerformed
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_changepasswordActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-                                     
+    private void changepasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepasswordMouseClicked
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         String dbUrl = "jdbc:mysql://localhost:3306/pullandentalclinic?zeroDateTimeBehavior=CONVERT_TO_NULL";
@@ -201,9 +200,13 @@ public class ForgotPassword extends javax.swing.JFrame {
         if (rs.next()) {
             // Email and contact number match
             String userId = rs.getString("usersid");
+            
+            // Encrypt the new password before updating
+            String encryptedPassword = AESCrypt.encrypt(newPassword);
+            
             String updateQuery = "UPDATE users SET userspassword = ? WHERE usersid = ?";
             PreparedStatement updateStmt = con.prepareStatement(updateQuery);
-            updateStmt.setString(1, newPassword);
+            updateStmt.setString(1, encryptedPassword);
             updateStmt.setString(2, userId);
             int rowsUpdated = updateStmt.executeUpdate();
 
@@ -223,7 +226,7 @@ public class ForgotPassword extends javax.swing.JFrame {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_changepasswordMouseClicked
 
     private void fpcontactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fpcontactFocusLost
 
@@ -232,7 +235,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         // Validate if the contact number is exactly 10 digits
         if (contactNumber.length() != 10 || !contactNumber.matches("\\d{10}")) {
             JOptionPane.showMessageDialog(null, "Invalid contact number.", "", JOptionPane.ERROR_MESSAGE);
-            fpcontact.requestFocus(); // Optionally, you can request focus back to the field for correction
+            fpcontact.setText("");
         }
     }//GEN-LAST:event_fpcontactFocusLost
 
@@ -315,10 +318,10 @@ public class ForgotPassword extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton changepassword;
     private javax.swing.JTextField fpcontact;
     private javax.swing.JTextField fpemail;
     private javax.swing.JPasswordField fppass;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
